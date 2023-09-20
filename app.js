@@ -6,9 +6,9 @@ const app = express();
 const port = process.env.PORT || 8080;
 
 const dbConfig = {
-  user: process.env.USER, // Replace with your database username
+  user: process.env.USERNAME, // Replace with your database username
   password: process.env.PASSWORD, // Replace with your database password
-  database: process.env.DB, // Replace with your database name
+  database: process.env.DATABASE, // Replace with your database name
   host:
     process.env.NODE_ENV === "development"
       ? process.env.HOST // use localhost on dev
@@ -39,10 +39,11 @@ app.get("/", (req, res) => {
 });
 
 // Define a route to test the database connection
-app.get("/test", (req, res) => {
+app.get("/test", async (req, res) => {
   if (client && client._connected) {
-    const data = client.query("SELECT * FROM test");
-    return res.json({ status: "connected", test_data: data });
+    const data = await client.query("SELECT * FROM test");
+
+    return res.json({ status: "connected", test_data: data.rows });
   } else {
     return res.json({ status: "disconnected" });
   }
