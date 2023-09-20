@@ -46,6 +46,17 @@ app.get("/env", (req, res) => {
     PG_CONNECTION_STRING: process.env.PG_CONNECTION_STRING,
   });
 });
+
+//connect db
+app.get("/connect", async (req, res) => {
+  try {
+    await client.connect();
+    res.json({ status: "connected", author: "aomwara" });
+  } catch (error) {
+    res.json({ status: "disconnected", author: "aomwara", error: error });
+  }
+});
+
 // Start the Express server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
