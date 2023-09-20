@@ -31,7 +31,7 @@ async function connectToDatabase() {
 connectToDatabase();
 
 app.get("/", (req, res) => {
-  res.json({
+  return res.json({
     message: "App test to connect database with cloud run and cloud sql",
     version: "1.0.0",
     author: "aomwara",
@@ -42,9 +42,9 @@ app.get("/", (req, res) => {
 app.get("/test", (req, res) => {
   if (client && client._connected) {
     const data = client.query("SELECT * FROM test");
-    res.json({ status: "connected", test_data: data });
+    return res.json({ status: "connected", test_data: data });
   } else {
-    res.json({ status: "disconnected" });
+    return res.json({ status: "disconnected" });
   }
 });
 
@@ -52,9 +52,9 @@ app.get("/test", (req, res) => {
 app.get("/connect", async (req, res) => {
   try {
     await client.connect();
-    res.json({ status: "connected" });
+    return res.json({ status: "connected" });
   } catch (error) {
-    res.json({ status: "disconnected", error: error });
+    return res.json({ status: "disconnected", error: error });
   }
 });
 
@@ -62,9 +62,9 @@ app.get("/connect", async (req, res) => {
 app.get("/disconnect", async (req, res) => {
   try {
     await client.end();
-    res.json({ status: "disconnected" });
+    return res.json({ status: "disconnected" });
   } catch (error) {
-    res.json({ status: "connected", error: error });
+    return res.json({ status: "connected", error: error });
   }
 });
 
