@@ -41,6 +41,11 @@ app.get("/test", (req, res) => {
   }
 });
 
+app.get("/env", (req, res) => {
+  res.json({
+    PG_CONNECTION_STRING: process.env.PG_CONNECTION_STRING,
+  });
+});
 // Start the Express server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
