@@ -15,5 +15,3 @@ steps:
       - '--region'
       - 'asia-southeast2'
       - '--allow-unauthenticated'
-      # - '--vpc-connector'
-      # - 'projects/$PROJECT_ID/locations/asia-southeast2/connectors/test-connect-db'
