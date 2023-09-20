@@ -5,11 +5,14 @@ require("dotenv").config(); // Load environment variables from .env file
 const app = express();
 const port = process.env.PORT || 8080;
 
-// PostgreSQL database connection configuration
-const connectionString = process.env.PG_CONNECTION_STRING;
-const client = new Client({
-  connectionString: connectionString,
-});
+const dbConfig = {
+  user: process.env.USER, // Replace with your database username
+  password: process.env.PASSWORD, // Replace with your database password
+  database: process.env.DB, // Replace with your database name
+  host: `/cloudsql/${process.env.HOST}`, // Use the Cloud SQL instance connection name
+};
+
+const client = new Client(dbConfig);
 
 async function connectToDatabase() {
   try {
