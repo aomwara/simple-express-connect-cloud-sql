@@ -41,7 +41,8 @@ app.get("/", (req, res) => {
 // Define a route to test the database connection
 app.get("/test", (req, res) => {
   if (client && client._connected) {
-    res.json({ status: "connected" });
+    const data = client.query("SELECT NOW()");
+    res.json({ status: "connected", data: data });
   } else {
     res.json({ status: "disconnected" });
   }
