@@ -38,25 +38,19 @@ app.get("/", (req, res) => {
 // Define a route to test the database connection
 app.get("/test", (req, res) => {
   if (client && client._connected) {
-    res.json({ status: "connected", author: "aomwara" });
+    res.json({ status: "connected" });
   } else {
-    res.json({ status: "disconnected", author: "aomwara" });
+    res.json({ status: "disconnected" });
   }
 });
 
-app.get("/env", (req, res) => {
-  res.json({
-    PG_CONNECTION_STRING: process.env.PG_CONNECTION_STRING,
-  });
-});
-
-//connect db
+//try to hard connect db
 app.get("/connect", async (req, res) => {
   try {
     await client.connect();
-    res.json({ status: "connected", author: "aomwara" });
+    res.json({ status: "connected" });
   } catch (error) {
-    res.json({ status: "disconnected", author: "aomwara", error: error });
+    res.json({ status: "disconnected", error: error });
   }
 });
 
