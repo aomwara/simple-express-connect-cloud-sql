@@ -1,11 +1,12 @@
 const express = require("express");
 const { Client } = require("pg");
+require("dotenv").config(); // Load environment variables from .env file
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 // PostgreSQL database connection configuration
-const connectionString = "<DB_CONNECTION_STRING>";
+const connectionString = process.env.PG_CONNECTION_STRING; // Use the environment variable
 const client = new Client({
   connectionString: connectionString,
 });
