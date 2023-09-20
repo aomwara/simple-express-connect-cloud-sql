@@ -9,7 +9,10 @@ const dbConfig = {
   user: process.env.USER, // Replace with your database username
   password: process.env.PASSWORD, // Replace with your database password
   database: process.env.DB, // Replace with your database name
-  host: `/cloudsql/${process.env.HOST}`, // Use the Cloud SQL instance connection name
+  host:
+    process.env.NODE_ENV === "development"
+      ? process.env.HOST // use localhost on dev
+      : `/cloudsql/${process.env.HOST}`, // Use the Cloud SQL instance connection name on prod
 };
 
 const client = new Client(dbConfig);
