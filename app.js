@@ -49,26 +49,6 @@ app.get("/test", async (req, res) => {
   }
 });
 
-//try to hard connect db
-app.get("/connect", async (req, res) => {
-  try {
-    await client.connect();
-    return res.json({ status: "connected" });
-  } catch (error) {
-    return res.json({ status: "disconnected", error: error });
-  }
-});
-
-// try to hard disconnect db
-app.get("/disconnect", async (req, res) => {
-  try {
-    await client.end();
-    return res.json({ status: "disconnected" });
-  } catch (error) {
-    return res.json({ status: "connected", error: error });
-  }
-});
-
 // Start the Express server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
