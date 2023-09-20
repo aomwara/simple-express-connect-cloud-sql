@@ -3,28 +3,41 @@ const { Client } = require("pg");
 require("dotenv").config(); // Load environment variables from .env file
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 
 // PostgreSQL database connection configuration
-const connectionString = process.env.PG_CONNECTION_STRING; // Use the environment variable
+const connectionString = process.env.PG_CONNECTION_STRING;
 const client = new Client({
   connectionString: connectionString,
 });
-client.connect();
 
-// Define a basic route
+async function connectToDatabase() {
+  try {
+    await client.connect();
+    console.log("Connected to PostgreSQL database");
+  } catch (error) {
+    console.error("Error connecting to PostgreSQL database:", error);
+    // Optionally, you can take additional actions here, such as logging or notifying administrators.
+  }
+}
+
+// Attempt to connect to the database
+connectToDatabase();
+
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.json({
+    message: "App test to connect database with cloud run and cloud sql",
+    version: "1.0.0",
+    author: "aomwara",
+  });
 });
 
-// Define a route to fetch data from the database
-app.get("/data", async (req, res) => {
-  try {
-    const result = await client.query("SELECT * FROM your_table"); // Replace 'your_table' with the name of your PostgreSQL table
-    res.json(result.rows);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+// Define a route to test the database connection
+app.get("/test", (req, res) => {
+  if (client && client._connected) {
+    res.json({ status: "connected", author: "aomwara" });
+  } else {
+    res.json({ status: "disconnected", author: "aomwara" });
   }
 });
 
